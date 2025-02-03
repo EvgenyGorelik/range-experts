@@ -1,0 +1,6 @@
+[submodule "inference/third_party/cuPCL"]
+	path = inference/third_party/cuPCL
+	url = https://github.com/NVIDIA-AI-IOT/cuPCL.git
+[submodule "inference/third_party/stb"]
+	path = inference/third_party/stb
+	url = https://github.com/nothings/stb.git

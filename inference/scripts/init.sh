@@ -1,0 +1,1 @@
+export TENSORRT_ROOT=/usr/local/TensorRT-8.4.2.4

@@ -1,0 +1,90 @@
+<launch>
+	<arg name="use_sim_time" default="false"/>
+	
+  	<arg name="vehicle_id" default="$(env VEHICLE_ID tiguan)"/>
+
+	<arg name="num_cameras"  default="6"/>
+	<let name="camera_0" value="camera_back" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+  	<let name="camera_1" value="camera_back_left" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+  	<let name="camera_2" value="camera_back_right" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+  	<let name="camera_3" value="camera_front_left" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+  	<let name="camera_4" value="camera_front_right" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+  	<let name="camera_5" value="camera_front_wide" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+	
+	<let name="camera_0" value="camera_back_center" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+  	<let name="camera_1" value="camera_back_left" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+  	<let name="camera_2" value="camera_back_right" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+  	<let name="camera_4" value="camera_front_left" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+  	<let name="camera_3" value="camera_front_right" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+  	<let name="camera_5" value="camera_front_wide" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+
+	<let name="intensity_scaling" value="1.0" if="$(eval &quot;'$(var vehicle_id)' == 'tiguan' &quot;)"/>
+	<let name="intensity_scaling" value="0.00152587890625000" if="$(eval &quot;'$(var vehicle_id)' == 'bus' &quot;)"/>
+
+	<arg name="lidar_topic"  default="/lidars/points_fused"/>
+	<arg name="compressed"  default="true"/>    
+
+
+  	<let name="camera_topic" value="image/compressed" if="$(eval &quot;'$(var compressed)' == 'true' &quot;)"/>
+	<let name="camera_topic" value="image" if="$(eval &quot;'$(var compressed)' == 'false' &quot;)"/>
+
+	<arg name="camera_info_topic"  default="camera_info"/>
+
+
+	<arg name="world_frame" default="map"/>
+	<arg name="objects_pub_topic" default="/perception/object_recognition/detection/objects"/>
+
+    <arg name="slag" default="10"/>
+
+	<arg name="pkg_path" default="$(find-pkg-share bev_fusion)"/>
+	<arg name="model_name" default="resnet50"/>
+	<arg name="precision" default="fp16"/>
+
+	<arg name="lidar_buffer_size" default="3"/>
+	<arg name="max_lidar_points" default="100000"/>
+		
+	<arg name="debug" default="false"/>
+	<arg name="export_directory"  default=""/>
+
+	<node pkg="bev_fusion" exec="bev_fusion_node" name="bev_fusion" args="" output="screen">
+		<param name="use_sim_time" value="$(var use_sim_time)"/>
+		<param name="lidar_topic" value="$(var lidar_topic)"/>
+		<param name="num_cameras" value="$(var num_cameras)"/>
+	    <param name="camera_0_topic" value="/$(var camera_0)/$(var camera_topic)"/>
+		<param name="camera_1_topic" value="/$(var camera_1)/$(var camera_topic)"/>
+		<param name="camera_2_topic" value="/$(var camera_2)/$(var camera_topic)"/>
+		<param name="camera_3_topic" value="/$(var camera_3)/$(var camera_topic)"/>
+		<param name="camera_4_topic" value="/$(var camera_4)/$(var camera_topic)"/>
+		<param name="camera_5_topic" value="/$(var camera_5)/$(var camera_topic)"/>
+
+
+	    <param name="camera_0_info_topic" value="/$(var camera_0)/$(var camera_info_topic)"/>
+		<param name="camera_1_info_topic" value="/$(var camera_1)/$(var camera_info_topic)"/>
+		<param name="camera_2_info_topic" value="/$(var camera_2)/$(var camera_info_topic)"/>
+		<param name="camera_3_info_topic" value="/$(var camera_3)/$(var camera_info_topic)"/>
+		<param name="camera_4_info_topic" value="/$(var camera_4)/$(var camera_info_topic)"/>
+		<param name="camera_5_info_topic" value="/$(var camera_5)/$(var camera_info_topic)"/>
+		
+ 
+        <param name="tf_camera_0"  value="$(var camera_0)"/>
+        <param name="tf_camera_1"  value="$(var camera_1)"/>
+        <param name="tf_camera_2"  value="$(var camera_2)"/>
+        <param name="tf_camera_3"  value="$(var camera_3)"/>
+        <param name="tf_camera_4"  value="$(var camera_4)"/>
+        <param name="tf_camera_5"  value="$(var camera_5)"/>
+        
+		<param name="objects_pub_topic" value="$(var objects_pub_topic)"/>
+		<param name="slag" value="$(var slag)"/>
+		<param name="compressed" value="$(var compressed)"/>
+		
+		<param name="lidar_buffer_size" value="$(var lidar_buffer_size)"/>
+		<param name="max_lidar_points" value="$(var max_lidar_points)"/>
+		<param name="intensity_scaling" value="$(var intensity_scaling)"/>
+		
+		<param name="world_frame" value="$(var world_frame)"/>
+		<param name="debug" value="$(var debug)" type="bool"/>
+        <param name="export_directory" value="$(var export_directory)"/>
+
+	    <param name="config" value="$(find-pkg-share bev_fusion)/config/bevfusion.param.yaml"/>
+	</node>
+</launch>
