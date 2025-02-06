@@ -37,6 +37,7 @@ mim install mmengine
 mim install 'mmcv==2.0.0rc4'
 mim install 'mmdet==3.0.0'
 pip install -r requirements.txt
+pip install nuscenes-devkit/setup
 ```
 
 **Make sure that the CUDA version is 11.8+**
