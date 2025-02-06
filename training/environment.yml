@@ -1,0 +1,44 @@
+name: range_of_exports
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+
+  - numpy<2
+  - pytorch=2.1
+  - torchvision
+  - pytorch-cuda=12.1
+
+  - cython
+  - scipy
+  - scikit-learn
+#  - matplotlib
+  - tqdm
+  - pandas
+  - pyyaml
+  - libjpeg-turbo
+  - scikit-image
+  - numba
+  - pip
+  - pip:
+    - ninja
+    - torchinfo
+    - optuna
+    - mlflow
+    - psutil
+    - pynvml
+    - wandb
+    - pillow-simd
+    - opencv-python-headless
+    - timm
+    - mmengine
+    # - mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu121/torch2.1/index.html
+    # - https://download.openmmlab.com/mmcv/dist/cu121/torch2.1.0/mmcv-2.1.0-cp311-cp311-manylinux1_x86_64.whl
+    - git+https://github.com/open-mmlab/mmcv.git@v2.1.0
+    - mmdet==3.3.0
+    - git+https://github.com/argoverse/av2-api#egg=av2
+    - spconv-cu120
+    # - git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0
